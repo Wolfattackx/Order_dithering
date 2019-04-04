@@ -19,16 +19,16 @@ def order_dither(pixel, width, height):
     for x in range(0, width):
         for y in range(0, height):
 
-        	localX = x % dithersize
-        	localY = y % dithersize
+            localX = x % dithersize
+            localY = y % dithersize
 
-        	required_shade = dithering_lookup[localY + (localX * dithersize)]
+            required_shade = dithering_lookup[localY + (localX * dithersize)]
 
-        	if(pixel[x][y] <= required_shade):
-        		pixel[x][y] = 50
+            if(pixel[x][y] <= required_shade):
+                pixel[x][y] = 50
 
-        	else:
-        		pixel[x][y] = 200
+            else:
+                pixel[x][y] = 200
 
     return pixel
 
