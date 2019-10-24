@@ -16,20 +16,23 @@ def order_dither(pixel, width, height):
                         10, 58, 6,  54, 9,  57, 5,  53,
                         42, 26, 38, 22, 41, 25, 37, 21]
 
-    for x in range(0, width):
-        for y in range(0, height):
+    for y in range(0, height):
+        ani = ['/', '-', '\\']
+        for x in range(0, width):
 
             localX = x % dithersize
             localY = y % dithersize
 
             required_shade = dithering_lookup[localY + (localX * dithersize)]
 
-            if(pixel[x][y] <= required_shade):
-                pixel[x][y] = 50
+            if(pixel[y][x] <= required_shade):
+                pixel[y][x] = 30
 
             else:
-                pixel[x][y] = 200
+                pixel[y][x] = 200
 
+        print("\rDithering: {}% {}".format(int(np.interp(y, [0, height], [0, 100])), ani[y % 3]), end = "")
+    
     return pixel
 
 def LoadPixel(imagepath):
@@ -41,7 +44,7 @@ def LoadPixel(imagepath):
 
     print("The size of the image is: {}x{}".format(width, height))
 
-    im2 = Image.fromarray(order_dither(pixel, height, width))
+    im2 = Image.fromarray(np.array(order_dither(pixel, width, height)))
 
     im2.save('out.png')
 
@@ -55,8 +58,7 @@ def main():
 
     else:
         LoadPixel(sys.argv[1])
-        
 
 if __name__ == '__main__':
     main()
-    input("Press anything to quit......")
+    input("\nPress anything to quit......")
